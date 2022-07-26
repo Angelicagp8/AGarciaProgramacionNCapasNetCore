@@ -13,7 +13,7 @@ namespace BL
                 {
                     var query = context.Database.ExecuteSqlRaw($"AlumnoAdd {alumno.IdAlumno} , '{alumno.Nombre}' , '{alumno.ApellidoPaterno}', '{alumno.ApellidoMaterno}', '{alumno.Email}'");
 
-                    if (query > 0)
+                    if (query > 0 )
                     {
                         result.Correct = true;
                     }
