@@ -26,11 +26,9 @@
             @using (Html.BeginForm("Form", "Alumno", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="hidden">
-                    <div class="col-md-4 col-12 col-sm-6">
+                    <div class="col-md-4 col-12 col-sm-6" style="display: none;">
                         @Html.LabelFor(model => model.IdAlumno)
                         @Html.TextBoxFor(model => model.IdAlumno, new { @class = "form-control", @id = "txtIdAlumno" })
-                        @Html.ValidationMessageFor(model => model.IdAlumno)
-
                     </div>
                 </div>
 
@@ -87,13 +85,6 @@
                     </div>
                 </div>
 
-                <div class="col">
-                    <div class="col-md-4 col-12 col-sm-6">
-                        @Html.LabelFor(model => model.Horario.Turno)
-                        @Html.TextBoxFor(model => model.Horario.Turno, new { @class = "form-control", @id = "txtTurno" })
-                        @Html.ValidationMessageFor(model => model.Horario.Turno)
-                    </div>
-                </div>
 
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.Horario.Grupo.Plantel)
@@ -122,6 +113,30 @@
                         @Html.ValidationMessageFor(model => model.Horario.Grupo.IdGrupo)
                     }
                 </div>
+
+                <div class="col-md-4">
+
+                        @Html.LabelFor(model=> model.Imagen)
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-image"></i></span>
+                            <input type='file' class="form-control" name="fuImage" onchange="readURL(this);" />
+                        </div>
+
+                        @if (Model.Imagen != null)
+                        {
+
+                            <img id="Img" src="data:image/*;base64,Model.Imagen" style="width:auto ; height:100px" />
+
+                        }
+                        else
+                        {
+                            <img id="Img" src="~/images/sinimagen.jpg" style="width:auto ; height:100px" />
+                        }
+
+
+                    </div>
+                    @Html.HiddenFor(model => model.Imagen)
 
                 <div class="col">
                     <div class="col-md-3">
@@ -153,8 +168,8 @@
                             $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
                             $.each(grupos, function (i, grupos) {
                                 $("#ddlGrupo").append('<option value="'
-                                                           + grupos.IdGrupo + '">'
-                                                           + grupos.Nombre + '</option>');
+                                                           + grupos.idGrupo + '">'
+                                                           + grupos.nombre + '</option>');
                             });
                         },
                         error: function (ex) {
@@ -184,5 +199,20 @@
                     });
                 });
             });
+
+           //Preview de la imagen
+        function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#Img')
+                  .attr('src', e.target.result);
+
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>  
 }

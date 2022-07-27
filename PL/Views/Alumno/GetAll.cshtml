@@ -1,4 +1,4 @@
-﻿@@model ML.Alumno
+﻿@model ML.Alumno
 @{
     ViewBag.Title = "GetAll";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,6 +34,7 @@
             <td>Horario</td>
             <td>Grupo</td>
             <td>Plantel</td>
+            <td>Imagen</td>
             <td>Eliminar</td>
         </tr>
     </thead>    
@@ -48,8 +49,8 @@
                 <td>@alumno.Semestre.Nombre</td>
                 <td>@alumno.Horario.Turno</td>
                 <td>@alumno.Horario.Grupo.Nombre</td>
-                <td>@alumno.Horario.Grupo.Plantel.IdPlantel</td>
-                
+                <td>@alumno.Horario.Grupo.Plantel.Nombre</td>
+                <td> <img id="Img" src="data:image/*;base64,@alumno.Imagen" style="width:auto ; height:100px" /></td>
                 <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Alumno", new { IdAlumno= alumno.IdAlumno})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
             </tr>
         }

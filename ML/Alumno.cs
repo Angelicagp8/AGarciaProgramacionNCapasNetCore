@@ -16,5 +16,6 @@ namespace ML
         public ML.Semestre Semestre { get; set; }
         public ML.Horario Horario { get; set; }
         public List<object> Alumnos { get; set; }
+        public string Imagen { get; set; }
     }
 }

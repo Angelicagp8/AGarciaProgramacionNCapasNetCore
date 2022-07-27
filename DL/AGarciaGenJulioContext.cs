@@ -55,6 +55,8 @@ namespace DL
                     .HasMaxLength(264)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Imagen).IsUnicode(false);
+
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(50)
                     .IsUnicode(false);
