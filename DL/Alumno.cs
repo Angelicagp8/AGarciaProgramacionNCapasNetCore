@@ -19,5 +19,10 @@ namespace DL
 
         public virtual Semestre? IdSemestreNavigation { get; set; }
         public virtual ICollection<Horario> Horarios { get; set; }
+
+        //Alias
+        public string NombreSemestre { get; set; }
+        public string NombreGrupo { get; set; }
+        public string NombrePlantel { get; set; }
     }
 }

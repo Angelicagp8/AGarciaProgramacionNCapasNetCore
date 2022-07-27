@@ -13,5 +13,8 @@ namespace ML
         public string ApellidoPaterno { get; set; }
         public string? ApellidoMaterno { get; set; }
         public string Email { get; set; }
+        public ML.Semestre Semestre { get; set; }
+        public ML.Horario Horario { get; set; }
+        public List<object> Alumnos { get; set; }
     }
 }
