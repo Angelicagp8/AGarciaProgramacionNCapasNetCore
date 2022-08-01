@@ -41,7 +41,7 @@ namespace BL
             {
                 using (DL.AGarciaGenJulioContext context = new DL.AGarciaGenJulioContext())
                 {
-                    var query = context.Database.ExecuteSqlRaw($"AlumnoUpdate {alumno.IdAlumno}, '{alumno.Nombre}', '{alumno.ApellidoPaterno}', '{alumno.ApellidoMaterno}', '{alumno.Email}', {alumno.Semestre.IdSemestre}, {alumno.Horario.IdHorario},'{alumno.Horario.Turno}',{alumno.Horario.Grupo.IdGrupo}");
+                    var query = context.Database.ExecuteSqlRaw($"AlumnoUpdate {alumno.IdAlumno}, '{alumno.Nombre}', '{alumno.ApellidoPaterno}', '{alumno.ApellidoMaterno}', '{alumno.Email}', {alumno.Semestre.IdSemestre}, {alumno.Horario.IdHorario},'{alumno.Horario.Turno}',{alumno.Horario.Grupo.IdGrupo},'{alumno.Imagen}',{alumno.Status}");
 
                     if (query > 0)
                     {
@@ -64,14 +64,14 @@ namespace BL
             return result;
         }
 
-        public static ML.Result GetAll()
+        public static ML.Result GetAll(ML.Alumno alumnoBusquedaAbierta)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using(DL.AGarciaGenJulioContext context = new DL.AGarciaGenJulioContext())
                 {
-                    var query = context.Alumnos.FromSqlRaw($"AlumnoGetAll").ToList();
+                    var query = context.Alumnos.FromSqlRaw($"AlumnoGetAll '{alumnoBusquedaAbierta.Nombre}','{alumnoBusquedaAbierta.ApellidoPaterno}','{alumnoBusquedaAbierta.ApellidoMaterno}'").ToList();
                     result.Objects = new List<object>();
 
                     if(query != null)
@@ -86,6 +86,7 @@ namespace BL
                             alumno.ApellidoMaterno = obj.ApellidoMaterno;
                             alumno.Email = obj.Email;
                             alumno.Imagen = obj.Imagen;
+                            alumno.Status = obj.Status.Value;
                             alumno.Semestre = new ML.Semestre();
                             alumno.Semestre.IdSemestre = obj.IdSemestre.Value;
                             alumno.Semestre.Nombre = obj.NombreSemestre;
@@ -139,6 +140,8 @@ namespace BL
                             alumno.ApellidoPaterno = objAlumno.ApellidoPaterno;
                             alumno.ApellidoMaterno = objAlumno.ApellidoMaterno;
                             alumno.Email = objAlumno.Email;
+                            alumno.Imagen = objAlumno.Imagen;
+                            alumno.Status = objAlumno.Status.Value;
                             alumno.Semestre = new ML.Semestre();
                             alumno.Semestre.IdSemestre = objAlumno.IdSemestre.Value;
                             alumno.Horario = new ML.Horario();

@@ -17,5 +17,6 @@ namespace ML
         public ML.Horario Horario { get; set; }
         public List<object> Alumnos { get; set; }
         public string Imagen { get; set; }
+        public bool Status { get; set; }
     }
 }

@@ -15,6 +15,40 @@
 
 </div>
 
+@using (Html.BeginForm("GetAll", "Alumno", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+                    <div class="col">
+                    <div class="col-md-4 col-12 col-sm-6">
+                        @Html.LabelFor(model => model.Nombre)
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                        @Html.ValidationMessageFor(model => model.Nombre)
+
+                    </div>
+                </div>
+                                <div class="col">
+                    <div class="col-md-4 col-12 col-sm-6">
+                        @Html.LabelFor(model => model.ApellidoPaterno)
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtNombre" })
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+
+                    </div>
+                </div>
+                                <div class="col">
+                    <div class="col-md-4 col-12 col-sm-6">
+                        @Html.LabelFor(model => model.ApellidoMaterno)
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtNombre" })
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+
+                    </div>
+                </div>
+
+                                <div class="col">
+                    <div class="col-md-3">
+                        <input type="submit" value="Buscar" class="btn btn-success" />
+                    </div>
+                </div>
+}
+
 @*<div class="row">*@
 <div style="float:right;">
     @Html.ActionLink("+", "Form", "Alumno", htmlAttributes: new { @class = "btn btn-success" })
@@ -35,6 +69,7 @@
             <td>Grupo</td>
             <td>Plantel</td>
             <td>Imagen</td>
+            <td>Status</td>
             <td>Eliminar</td>
         </tr>
     </thead>    
@@ -50,7 +85,26 @@
                 <td>@alumno.Horario.Turno</td>
                 <td>@alumno.Horario.Grupo.Nombre</td>
                 <td>@alumno.Horario.Grupo.Plantel.Nombre</td>
-                <td> <img id="Img" src="data:image/*;base64,@alumno.Imagen" style="width:auto ; height:100px" /></td>
+                 @if (alumno.Imagen == null || alumno.Imagen == "")
+                 {
+                    <td><img src="~/images/SinImagen.jpg" style="width:auto ; height:100px" id="Img" /></td>
+                 }
+                 else
+                 {
+
+                    <td> <img id="Img" src="data:image/*;base64,@alumno.Imagen" style="width:auto ; height:100px" /></td>
+                 }
+                
+                @if (alumno.Status)
+                {
+                    <td><a href="@Url.Action("UpdateStatus", "Alumno", new { IdAlumno = alumno.IdAlumno})"><img src="~/images/btnactivo.png" style="width:80px; height:40px" /></a></td> 
+
+                }
+                else
+                {
+                    <td><a href="@Url.Action("UpdateStatus", "Alumno", new { IdAlumno = alumno.IdAlumno})"><img src="~/images/Inactivo.png" style="width:80px; height:40px" /></a></td> 
+                }
+                
                 <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Alumno", new { IdAlumno= alumno.IdAlumno})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
             </tr>
         }
