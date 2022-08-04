@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Data.OleDb;
 
 namespace BL
 {
@@ -170,6 +172,75 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        public static ML.Result ConvertirExcelDataTable(string connectionString)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (OleDbConnection context = new OleDbConnection(connectionString))
+                {
+                    string query = "SELECT * FROM []";
+                    using (OleDbCommand cmd = new OleDbCommand())
+                    {
+                        cmd.CommandText = query;
+                        cmd.Connection = context;
+
+                        OleDbDataAdapter da = new OleDbDataAdapter();
+                        da.SelectCommand = cmd;
+
+                        DataTable tableAlumno = new DataTable();
+
+                        da.Fill(tableAlumno);
+
+                        if(tableAlumno.Rows.Count > 0)
+                        {
+                            result.Objects = new List<object>();
+
+                            foreach( DataRow row in tableAlumno.Rows){
+                                ML.Alumno alumno = new ML.Alumno();
+                                alumno.Nombre = row[0].ToString();
+                                alumno.ApellidoPaterno  = row[1].ToString();
+                                alumno.ApellidoMaterno = row[2].ToString();
+                                alumno.Email = row[3].ToString();
+
+                                alumno.Semestre = new ML.Semestre();
+                                alumno.Semestre.IdSemestre = int.Parse(row[4].ToString());
+
+                                alumno.Horario = new ML.Horario();
+                                alumno.Horario.Turno = row[5].ToString();
+
+                                alumno.Horario.Grupo = new ML.Grupo();
+                                alumno.Horario.Grupo.IdGrupo = int.Parse(row[6].ToString());
+
+                                result.Objects.Add(alumno);
+                            }
+                            result.Correct = true;
+                        }
+                        result.Object = tableAlumno;
+
+                        if (tableAlumno.Rows.Count > 1)
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "No existen registros en el excel";
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+
             }
             return result;
         }
