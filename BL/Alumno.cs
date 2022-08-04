@@ -244,5 +244,68 @@ namespace BL
             }
             return result;
         }
+
+        public static ML.Result ValidarExcel(List<object> Objects)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                result.Objects = new List<object>();
+                int i = 1;
+
+                foreach (ML.Alumno alumno in Objects)
+                {
+                    ML.ExcelErrores error = new ML.ExcelErrores();
+                    error.IdRegistro = i;
+
+                    if (alumno.Nombre == "")
+                    {
+                        error.Message += "Ingrese en nombre ";
+                    }
+                    if (alumno.ApellidoPaterno == "")
+                    {
+                        error.Message += "Ingrese Apellido Paterno";
+                    }
+                    if (alumno.ApellidoMaterno == "")
+                    {
+                        error.Message += "Ingrese Apellido Materno";
+                    }
+                    if (alumno.Email == "")
+                    {
+                        error.Message += "Ingrese Email";
+                    }
+                    if (alumno.Semestre.IdSemestre.ToString() == "")
+                    {
+                        error.Message += "Ingrese Semestre";
+                    }
+                    if (alumno.Horario.Turno == "")
+                    {
+                        error.Message += "Ingrese Turno";
+                    }
+                    if (alumno.Horario.Grupo.IdGrupo.ToString() == "")
+                    {
+                        error.Message += "Ingrese Grupo";
+                    }
+
+                    if(error.Message != null)
+                    {
+                        result.Objects.Add(error);
+                    }
+
+                    i++;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+
+            return result;
+        }
     }
 }
