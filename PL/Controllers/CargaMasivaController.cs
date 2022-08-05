@@ -29,7 +29,7 @@ namespace PL.Controllers
         {
             IFormFile archivo= Request.Form.Files["FileExcel"];
 
-            if (HttpContext.Session.GetString("PathArchivo") == null) //Validar si ya se valido el documento 
+            if (HttpContext.Session.GetString("PathArchivo") == null) //Validar el documento 
             {
 
                 if (archivo != null)
