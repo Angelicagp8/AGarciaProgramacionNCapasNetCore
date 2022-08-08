@@ -101,42 +101,53 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult Form(ML.Alumno alumno)
         {
-            IFormFile imagen = Request.Form.Files["fuImage"]; 
-            if (imagen != null)
+            if (ModelState.IsValid)
             {
-                byte[] ImagenByte = ConvertToBytes(imagen); 
-                alumno.Imagen = Convert.ToBase64String(ImagenByte);  
-                                                                     
-            }
+                IFormFile imagen = Request.Form.Files["fuImage"];
+                if (imagen != null)
+                {
+                    byte[] ImagenByte = ConvertToBytes(imagen);
+                    alumno.Imagen = Convert.ToBase64String(ImagenByte);
 
-            if (alumno.IdAlumno == 0) //ADD
+                }
+
+                if (alumno.IdAlumno == 0) //ADD
+                {
+                    ML.Result result = BL.Alumno.Add(alumno);
+
+                    if (result.Correct)
+                    {
+                        ViewBag.Mensaje = "Registro existoso";
+                    }
+                    else
+                    {
+                        ViewBag.Mensaje = "Ocurrio un error" + result.ErrorMessage;
+                    }
+                }
+                else  //UPDATE
+                {
+                    ML.Result result = new ML.Result();
+                    if (result.Correct)
+                    {
+                        ViewBag.Mensaje = "Actualización existosa";
+                    }
+                    else
+                    {
+                        ViewBag.Mensaje = "Ocurrio un error";
+                    }
+                }
+                return View("Modal");
+            }
+            else
             {
-                ML.Result result = BL.Alumno.Add(alumno);
-
-                if (result.Correct)
-                {
-                    ViewBag.Mensaje = "Registro existoso";
-                }
-                else
-                {
-                    ViewBag.Mensaje = "Ocurrio un error" + result.ErrorMessage;
-                }
+                ML.Result resultSemestre = BL.Semestre.GetAll(); //Llamar al BL para traer la información de los semestres
+                ML.Result resultPlantel = BL.Plantel.GetAll();
+                ML.Result resultGrupo = BL.Grupo.GetByIdPlantel(alumno.Horario.Grupo.IdGrupo);
+                alumno.Semestre.Semestres = resultSemestre.Objects;
+                alumno.Horario.Grupo.Grupos = resultGrupo.Objects;
+                alumno.Horario.Grupo.Plantel.Planteles = resultPlantel.Objects;
+                return View(alumno);
             }
-            else  //UPDATE
-            {
-                ML.Result result = new ML.Result();
-                if (result.Correct)
-                {
-                    ViewBag.Mensaje = "Actualización existosa";
-                }
-                else
-                {
-                    ViewBag.Mensaje = "Ocurrio un error";
-                }
-            }
-
-
-            return View("Modal");
         }
 
         public ActionResult UpdateStatus(int IdAlumno)
