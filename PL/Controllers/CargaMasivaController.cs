@@ -130,7 +130,7 @@ namespace PL.Controllers
 
 
             }
-            return View();
+            return View("Modal");
         }
     }
 }

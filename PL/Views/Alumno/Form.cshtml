@@ -35,9 +35,9 @@
                 <div class="col">
                     <div class="col-md-4 col-12 col-sm-6">
                         @Html.LabelFor(model => model.Nombre)
-                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onblur = "return SoloLetras(event, 'lblErrorNombre')" })
                         @Html.ValidationMessageFor(model => model.Nombre)
-
+                        <label id="lblErrorNombre"></label>  @*Mostrar mensaje de error al usuario*@
                     </div>
                 </div>
 
@@ -199,6 +199,7 @@
                     });
                 });
             });
+      
 
            //Preview de la imagen
         function readURL(input) {
@@ -214,5 +215,20 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    // Validaciones 
+    function SoloLetras(e, controlId) {
+        var caracter = e.key;
+        if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g.test(caracter)) {
+            $('#' + controlId).text("Solo se aceptan letras");
+            $('#' + controlId).css({ "color": "red" });
+            return false;
+        }
+        else {
+            //$('#' + controlId).text("");
+            return true;
+        }
+    }
+
 </script>  
 }
