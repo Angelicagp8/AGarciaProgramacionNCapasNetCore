@@ -230,5 +230,20 @@
         }
     }
 
+      var j = jQuery.noConflict();
+
+        j(function () {
+            j("#txtFechaNacimiento").datepicker({
+                dateFormat: 'mm-dd-yy',
+                //showOn: 'button',
+                //buttonImage: "../../Img/calendar.png",
+                //buttonImageOnly: true,
+                changeMonth: true,
+                changeYear: true
+            });
+            $(".ui-datepicker-trigger").css("width", "30px");
+            $(".ui-datepicker-trigger").css("height", "30px");
+        });
+
 </script>  
 }
